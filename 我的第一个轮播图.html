@@ -28,18 +28,6 @@
             position: relative;
         }
 
-        /*.inner {*/
-        /*width: 100%;*/
-        /*height: 100%;*/
-        /*overflow: hidden;*/
-        /*}*/
-
-        /*.inner ul {*/
-        /*position: absolute;*/
-        /*top: 0;*/
-        /*left: 0;*/
-        /*}*/
-
         .box li {
             position: absolute;
             top: 0;
@@ -93,44 +81,106 @@
 
         .square span:hover {
             background: #E4E4E4;
-            border-color: #7F7F7F;
         }
 
-        .square .current:active {
+        .square .current {
             background: #E4E4E4;
             border-color: #7F7F7F;
         }
     </style>
 </head>
+
 <body>
-<div class="box" id="box">
-    <div class="inner">
-        <ul>
-            <li><a href=""><img src="xiaomi/1.jpg" alt=""></a></li>
-            <li><a href=""><img src="xiaomi/2.jpg" alt=""></a></li>
-            <li><a href=""><img src="xiaomi/3.jpg" alt=""></a></li>
-            <li><a href=""><img src="xiaomi/4.jpg" alt=""></a></li>
-            <li><a href=""><img src="xiaomi/5.jpg" alt=""></a></li>
-            <li><a href=""><img src="xiaomi/6.jpg" alt=""></a></li>
-        </ul>
-        <div class="lr-tab">
-            <div class="left btn"></div>
-            <div class="right btn"></div>
-        </div>
-        <div class="square">
-            <span class="current"></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+    <div class="box" id="box">
+        <div class="inner">
+            <ul id="pic">
+                <li>
+                    <a href="">
+                        <img src="xiaomi/1.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="xiaomi/2.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="xiaomi/3.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="xiaomi/4.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="xiaomi/5.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="xiaomi/6.jpg" alt="">
+                    </a>
+                </li>
+            </ul>
+            <div class="lr-tab">
+                <div class="left btn"></div>
+                <div class="right btn"></div>
+            </div>
+            <div class="square">
+                <span class="current"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </div>
-</div>
-<script>
+    <script>
+        window.onload = function () {
+            var boxId = document.getElementById("box");
+            var picUl = document.getElementById("pic").getElementsByTagName("li");
+            var spanObj = document.getElementsByClassName("square")[0].children;
+            var index = 0;
+            var timer = null;
+            //定义自动播放函数
+            timer = setInterval(autoPlay, 2000);
+            //鼠标划过整个容器停止自动播放函数
+            boxId.onmouseover = function () {
+                clearInterval(timer);
+            };
+            //鼠标离开容器自动播放下一张图片函数
+            boxId.onmouseout = function () {
+                timer = setInterval(autoPlay, 2000);
+            };
+            // 遍历所有数字导航实现划过切换至对应的图
+            for (var i = 0; i < spanObj.length; i++) {
+                spanObj[i].index = i;
+                spanObj[i].onmouseover = function () {
+                    clearInterval(timer);
+                    index = this.index;
+                    changePic(index);
+                };
+            };
 
-
-    //
-</script>
+            function autoPlay() {
+                if (++index >= picUl.length) index = 0;
+                changePic(index);
+            }
+            //定义图片切换函数
+            function changePic(curIndex) {
+                for (var j = 0; j < picUl.length; j++) {
+                    picUl[j].style.display = "none";
+                    spanObj[j].className = "";
+                }
+                picUl[curIndex].style.display = "block";
+                spanObj[curIndex].className = "current";
+            }
+        }
+    </script>
 </body>
+
 </html>
