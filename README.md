@@ -1,2 +1,2 @@
 # Website-imitate
-Just imitate the website.
+Just the website.
